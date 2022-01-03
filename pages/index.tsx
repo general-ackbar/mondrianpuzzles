@@ -17,7 +17,6 @@ import {contract_abi, contract_addr, InfuraID } from '../src/chain'
 
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from "@ethersproject/providers";
-import { Provider } from '@truffle/hdwallet-provider/dist/constructor/types';
 import { ethers } from 'ethers';
 
 const iConn = new InjectedConnector({ supportedChainIds: [1, 4] });
