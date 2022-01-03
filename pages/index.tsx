@@ -448,7 +448,7 @@ function Home() {
   )  
 }
 
-function getLibrary(provider:Provider) {
+function getLibrary(provider:any) {
   return new Web3Provider(provider);
 }
 
