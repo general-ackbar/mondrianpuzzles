@@ -1,5 +1,5 @@
 //export const address = "0x"; // mainnet
-export const contract_addr = "0x97DF82De8554CA6379CF17b364baece0A4F6bf2F"; // rinkeby
+export const contract_addr = "0x7AbC053bD39298870988990e6538Be2f57d62167"; // rinkeby
 export const InfuraID = "ebe23694ab8d46f0a4c82a3581f854da"; 
 
 export const contract_abi = 
