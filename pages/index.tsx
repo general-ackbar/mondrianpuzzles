@@ -55,22 +55,19 @@ function Home() {
   
     var provider = new ethers.providers.InfuraProvider('rinkeby', InfuraID);    
     const contract = new Contract(contract_addr, contract_abi, provider);
-    
+    setContract(contract);
+
     contract.callStatic
       .totalSupply()      
       .then((res) => {  
         setMintedTokensTotal(res);
       }, handleError);
 
-    contract.callStatic
-      .MAX_SUPPLY()      
-      .then((res) => {
-        setTotalTokens(res);        
-      }, handleError);
 
     contract.callStatic
       .YEARLY_SUPPLY()      
       .then((res) => {
+        setTotalTokens(res * 5);
         setTokensPerYear(res);
       }, handleError);
 
@@ -80,12 +77,16 @@ function Home() {
         setMintedTokensYear(res);
       }, handleError);
 
-    contract.callStatic
-      .availableFreebies()      
-      .then((res) => {
-        setAvailableFreebies(res);
-      }, handleError);
   }, [transactionHash]);
+
+  useEffect(() => {
+    if(!contract) return;
+    contract.callStatic
+      .currentYearFreeSupply()      
+      .then((res) => {     
+        setAvailableFreebies( (tokensPerYear/256) - res );
+      }, handleError);
+  }, [tokensPerYear]);
   
 
   useEffect(() => {
@@ -166,9 +167,9 @@ function Home() {
     setIsBusy(true);
     setError(null);
     
-    contract.mintForSelf(
+    contract.mintFor(account,
       { 
-        from: account, 
+        from: account,         
         value: ethers.utils.parseEther("0.01") 
       })
       .then(function(transaction:any) {

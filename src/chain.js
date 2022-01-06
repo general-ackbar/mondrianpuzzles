@@ -1,5 +1,5 @@
 //export const address = "0x"; // mainnet
-export const contract_addr = "0x7AbC053bD39298870988990e6538Be2f57d62167"; // rinkeby
+export const contract_addr = "0x92616B0101e677796d53719aBa953C6FFe7B587c"; // rinkeby
 export const InfuraID = "ebe23694ab8d46f0a4c82a3581f854da"; 
 
 export const contract_abi = 
@@ -11,14 +11,14 @@ export const contract_abi =
         {
             internalType: "uint256",
             name: "",
-            type: "uint256"
+            type: "uint"
         }
         ],    
         type: "function",
         constant: true
     },
     {
-        name: "mintForOther",
+        name: "mintFor",
         inputs: [
         {
             internalType: "address",
@@ -33,50 +33,15 @@ export const contract_abi =
     },
     {
         inputs: [],
-        name: "mintForSelf",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
-        payable: true
-    },
-    {
-        inputs: [],
         name: "mintForFree",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
         payable: false
     },
-    {
-        inputs: [],
-        name: "MAX_SUPPLY",
-        outputs: [
-          {
-            internalType: "uint16",
-            name: "",
-            type: "uint16"
-          }
-        ],
-        type: "function",
-        constant: true
-      },
       {
         inputs: [],
         name: "YEARLY_SUPPLY",
-        outputs: [
-          {
-            internalType: "uint16",
-            name: "",
-            type: "uint16"
-          }
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true
-      },
-      {
-        inputs: [],
-        name: "YEARLY_FREE_SUPPLY",
         outputs: [
           {
             internalType: "uint16",
@@ -130,7 +95,7 @@ export const contract_abi =
       },
       {
         inputs: [],
-        name: "availableFreebies",
+        name: "currentYearFreeSupply",
         outputs: [
           {
             internalType: "uint16",
@@ -141,6 +106,7 @@ export const contract_abi =
         type: "function",
         constant: true
       },
+
       {
         inputs: [],
         name: "withdrawAll",
