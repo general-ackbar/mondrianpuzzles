@@ -6,9 +6,9 @@
 }
 
 
-.mainHeadline { font-size: 4rem ; font-family: 'Courier New', Courier, monospace;}
+.mainHeadline { font-size: 4rem ; }
 .spinner {width: 100px; height: 80px; position: absolute; right: 50%; top: 50%; text-align: center; background-color: white; border: solid black 1px;} 
-.link { color: blue ; cursor: pointer; }
+.link { cursor: pointer; }
 .success {color: green;}
 .error { color: red;}
 .tokenInfo { font-size: small; font-style: italic; }

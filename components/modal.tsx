@@ -44,17 +44,20 @@ const Modal = ({ show, onClose, children, title }: {show:Boolean, title:string, 
   
   const StyledModalHeader = styled.div`
     display: flex;
+    color: black;
     justify-content: flex-end;
     font-size: 25px;
   `;
 
   const StyledModalTitle = styled.div`
     font-weight: bold;
+    color: black;
     text-align: center;
   `;
   
   const StyledModal = styled.div`
     background: white;
+    color: black;
     width: 550px;
     height: 650px;
     border-radius: 15px;

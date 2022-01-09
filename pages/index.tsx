@@ -44,7 +44,7 @@ function Home() {
   const [toAddress, setToAddress] = useState<string | null>(null);
   const [mintedTokenImage, setMintedTokenImage] = useState<string | undefined>(undefined);
   const [mintedTokenID, setMintedTokenID] = useState<number>(0);
-  const [requestedTokenID, setRequestedTokenID] = useState<string>("");
+  const [requestedToken, setRequestedToken] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
 
 
@@ -76,7 +76,6 @@ function Home() {
       .then((res) => {
         setMintedTokensYear(res);
       }, handleError);
-
   }, [transactionHash]);
 
   useEffect(() => {
@@ -131,7 +130,8 @@ function Home() {
     callPromise.then(function(result:any) {
         const decodedJson = Buffer.from(result.substring(29), "base64");        
         const json = JSON.parse(decodedJson.toString('ascii'));
-        console.log(json.image);    
+//        console.log(json.image);
+        setMintedTokenID(tokenID); 
         setMintedTokenImage(json.image);    
         setShowModal(true);        
         setIsBusy(false); 
@@ -242,13 +242,23 @@ function Home() {
   }
 
   function displayExistingToken()
-  {
-    const isNumber = new RegExp("^[0-9]*\d$");
-    if(isNumber.test(requestedTokenID))
+  {    
+    const isNumber:RegExp = new RegExp("^[0-9]+$");
+    //const isHash:RegExp = new RegExp("^0x\\w{64}$");
+    const isHash:RegExp = new RegExp("^0x([A-Fa-f0-9]{64})$");
+    if(isNumber.test(requestedToken))
     {
-      const tokenID = parseInt(requestedTokenID);
+      const tokenID = parseInt(requestedToken);
       getTokenImageFromID(tokenID);
+      window.scrollTo(0, 0);
+    } else if(isHash.test(requestedToken))
+    {
+      getTokenImageFromHash(requestedToken);
+      window.scrollTo(0,0);
     }
+    else
+      console.log("Neither a valid number or a valid hash");
+    
   }
 
   return (
@@ -331,12 +341,12 @@ function Home() {
             >Withdraw
           </TransactionButton>
           <br />
-          <form>
-            <TransactionButton 
+          <TransactionButton 
               disabled={!isOwner}
               onClick={ownerMint}
               >Owner mint
             </TransactionButton>
+          <form>
             <input type="text" 
               className={styles.transactionElement} 
               placeholder='receiver address' 
@@ -411,17 +421,17 @@ function Home() {
       { false && (
           <div>If you extract the <code>transaction hash</code> or the <code>tokenID</code> from your wallet you can also look it up using the feature below (please connect first).
           <form>
-          <TransactionButton 
+          <input type="text" 
+            className={styles.transactionElement} 
+            placeholder='tokenID or transaction hash' 
+            onChange={event => setRequestedToken(event.target.value)} 
+          />
+        </form>
+        <TransactionButton 
             disabled={!active}
             onClick={displayExistingToken }
             >Retrieve token
           </TransactionButton>
-          <input type="text" 
-            className={styles.transactionElement} 
-            placeholder='tokenID' 
-            onChange={event => setRequestedTokenID(event.target.value)} 
-          />
-        </form>
         </div>
       )}
     
@@ -437,7 +447,7 @@ function Home() {
         >
           <img src={mintedTokenImage} />
           <code>Token ID: {mintedTokenID}</code><br />
-          <span className={styles.tokenInfo}>You can right-click and save the image but please not that it's only a copy. However it makes it easier to display it elsewhere</span>
+          <span className={styles.tokenInfo}>You can right-click and save the image but please note that it's only a copy. However it makes it easier to display it elsewhere</span>
     </Modal>
 
 
