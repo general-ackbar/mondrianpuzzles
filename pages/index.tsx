@@ -2,12 +2,12 @@ import Head from 'next/head'
 
 
 import { useState, useEffect } from "react";
-import { Mondrian  } from '../components/mondrian';
 import styles from '../styles/Main.module.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import  Modal from '../components/modal';
 import Loader from "react-loader-spinner";
+import  Puzzle  from '../components/puzzle';
 
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -19,12 +19,15 @@ import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from "@ethersproject/providers";
 import { ethers } from 'ethers';
 
-const iConn = new InjectedConnector({ supportedChainIds: [1, 4] });
-const wcConn = new WalletConnectConnector({
-  rpc: {
-    1: `https://rinkeby.infura.io/v3/${InfuraID}`,
-  }
+const iConn = new InjectedConnector({   
+  supportedChainIds: [1, 4]
 });
+
+const wcConn = new WalletConnectConnector({
+  infuraId: InfuraID,
+  supportedChainIds: [1,4]  
+});
+
 
 
 function Home() {
@@ -48,7 +51,7 @@ function Home() {
   const [showModal, setShowModal] = useState<boolean>(false);
 
 
-  const { activate, active, library, account, deactivate } = useWeb3React(); 
+  const { activate, active, library, connector, account, deactivate } = useWeb3React(); 
   
 
   useEffect(() => {
@@ -367,8 +370,9 @@ function Home() {
     { (
     <div className={styles.puzzles}>    
     
-      <Mondrian width={400} height={400} cycles={12} />
-      <Mondrian width={400} height={400} cycles={6} />
+      <Puzzle width={300} height={300} noOfRectangles={12}  />
+      <Puzzle width={300} height={300} noOfRectangles={8}  />
+      
     
     </div>
     )}
