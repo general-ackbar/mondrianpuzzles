@@ -1,35 +1,16 @@
-import React from "react";
-import {memo} from "react";
+import { memo, useEffect, useState } from "react";
 
-interface iProp {}
-interface iRect
+
+class Rectangle
 {
     x: number;
     y: number;
     width: number;
     height: number;
     fill: string;
-}
 
-class Rectangle extends React.PureComponent< iRect>
-{
-    x:number = 0;
-    y:number = 0;
-    width:number = 0;
-    height:number = 0;
-    fill:string ="";
-
-
-    constructor(props)
+    constructor(props: { x:number; y:number; width:number; height:number; fill:string; })
     {
-        super(props);
-        this.state = {
-            x: this.props.x,
-            y: this.props.y,
-            width: this.props.width,
-            height: this.props.height,
-            fill: this.props.fill
-        }
         this.x = props.x;
         this.y = props.y;
         this.width = props.width;
@@ -38,43 +19,28 @@ class Rectangle extends React.PureComponent< iRect>
     }
 }
 
-interface MondrianProps
-{
-    width: number;
-    height: number;
-    cycles: number;
-}
 
-class Mondrian extends React.Component<MondrianProps>  {
-    
-    constructor (props)    
-    {
-        super(props);
-    }
-
-    render() {
-        
-        return this.generateSVG();
-    }
-
-    getRandomBetween(min: number, max: number)
+    const getRandomBetween = (min: number, max: number) =>
     {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    getRandom(max:number) {
+    const getRandom = (max:number) => {
         return Math.floor(Math.random() * max);
     }
 
-    generateSVG(){    
+
+    const Puzzle = ({width, height, noOfRectangles}: {width:number, height:number, noOfRectangles:number }) => {    
+        
         
         const colors = ['red', 'red', 'blue', 'blue', 'yellow', 'yellow', 'white', 'white', 'white', 'black']        
-        const canvas_width = this.props.width;
-        const canvas_height = this.props.height;
-        const cycles = this.props.cycles;
+        const canvas_width = width;
+        const canvas_height = height;
+        const cycles = noOfRectangles;
         const tolerance = 30; 
+
         let rectangles:Rectangle[] = [];
     
         
@@ -86,19 +52,21 @@ class Mondrian extends React.Component<MondrianProps>  {
         let nominator = 3;
         let probability = 0.5;
 
+        
         rectangles.push(availableRect);
 
+        
         
         
         while (counter < cycles && (availableRect.width > tolerance && availableRect.height > tolerance))
         {
             counter++;
                 
-            let fraction = this.getRandomBetween(1,nominator);
+            let fraction = getRandomBetween(1,nominator);
             
-            let newColor = colors[this.getRandom(colors.length)];                  
+            let newColor = colors[getRandom(colors.length)];                  
             while (newColor == availableRect.fill )
-                newColor = colors[this.getRandom(colors.length)];                  
+                newColor = colors[getRandom(colors.length)];                  
             
             if(Math.random() > probability) //Vertical 
             {
@@ -106,7 +74,7 @@ class Mondrian extends React.Component<MondrianProps>  {
                 let new_width = (canvas_width * fraction) / parts;
                 while(new_width > availableRect.width)
                 {
-                    fraction = this.getRandomBetween(1,nominator);
+                    fraction = getRandomBetween(1,nominator);
                     new_width = (canvas_width * fraction) / parts;
                 }
 
@@ -127,7 +95,7 @@ class Mondrian extends React.Component<MondrianProps>  {
                 let new_height = (canvas_height * fraction) / parts;
                 while(new_height > availableRect.height)
                 {
-                    fraction = this.getRandomBetween(1,nominator);
+                    fraction = getRandomBetween(1,nominator);
                     new_height = (canvas_height * fraction) / parts;
                 }        
 
@@ -146,8 +114,8 @@ class Mondrian extends React.Component<MondrianProps>  {
             
         }     
         
-        return(
-            <svg>
+        return(            
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" >
             {
             rectangles.map( (rectangle, index) => {
                 return (<rect 
@@ -166,8 +134,8 @@ class Mondrian extends React.Component<MondrianProps>  {
             </svg>
         );
     }
-}
 
 
 
-export { Mondrian };
+
+export default memo(Puzzle);
