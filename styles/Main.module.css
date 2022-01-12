@@ -16,7 +16,7 @@
 .transactionElement { border-radius: 15px; margin: 5px 5px 5px 0; }
 .connect { margin: 2px; }
 .disconnect { width: 200px; height: 40px; margin: 2px; font-size: 1.2em;}
-.container { padding: 0 2rem; background-color: rgb(42,56,86); color: rgb(239,239,239); }
+.container { padding: 0 2rem;  }
 .content { padding: 5% 15% 0 15%; }
 .stats { padding: 10px; }
 .unavailable { padding-right: 10px; color: red;}
