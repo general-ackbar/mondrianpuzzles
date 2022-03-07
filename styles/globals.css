@@ -12,6 +12,7 @@ a {
   color: rgb(196, 73, 157);
   text-decoration: none;
 }
+a:hover { cursor: pointer; }
 
 * {
   box-sizing: border-box;
