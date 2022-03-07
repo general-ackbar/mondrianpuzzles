@@ -69,7 +69,7 @@ export const contract_abi =
       },
       {
         inputs: [],
-        name: "totalSupply",
+        name: "total",
         outputs: [
           {
             internalType: "uint16",

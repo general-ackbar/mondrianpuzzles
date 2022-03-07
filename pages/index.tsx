@@ -61,7 +61,7 @@ function Home() {
     setContract(contract);
 
     contract.callStatic
-      .totalSupply()      
+      .total()      
       .then((res) => {  
         setMintedTokensTotal(res);
       }, handleError);
@@ -110,7 +110,7 @@ function Home() {
       }, handleError);
 
 
-  }, [account]);
+  }, [account, success]);
 
 
   /*
@@ -161,7 +161,7 @@ function Home() {
         setTransactionHash(transaction.hash);
         setSuccess(true);  
       }
-      setIsBusy(false);                  
+      setIsBusy(false);             
     }, handleError);
   }
 
@@ -244,6 +244,11 @@ function Home() {
     }); 
   }
 
+  function refresh()
+  {
+    window.location.reload();
+  }
+
   function displayExistingToken()
   {    
     const isNumber:RegExp = new RegExp("^[0-9]+$");
@@ -320,10 +325,13 @@ function Home() {
       (
         <div>
           The transaction finished with the hash <code className={ success && !error ? styles.success : styles.error }>{ transactionHash }</code>.<br />          
-          You can look up the transaction on EtherScan by using <a className={styles.link} href=  { 'https://etherscan.io/tx/' + transactionHash } target='_blank' >this link</a><br />
+          You can look up the transaction on EtherScan by using <a className={styles.link} href=  { 'https://etherscan.io/tx/' + transactionHash } target='_blank' >this link</a><br />    
           <br />
           If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="opensea.io" target="_blank">OpenSea</a> to view the puzzle.
           Once the transaction is fully processed you may also view the puzzle here: <a className={styles.link} onClick={() => getTokenImageFromHash(transactionHash)}>view token</a>
+          <br />
+          <br />
+          If you want to mint another NFT, you will have to <a onClick={refresh}>reload</a> the page (sorry).
         </div>
       )
       }
