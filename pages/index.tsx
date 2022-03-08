@@ -13,7 +13,7 @@ import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 
-import {contract_abi, contract_addr, InfuraID } from '../src/chain'
+import {contract_abi, contract_addr, InfuraID, network } from '../src/chain'
 
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from "@ethersproject/providers";
@@ -56,7 +56,7 @@ function Home() {
 
   useEffect(() => {
   
-    var provider = new ethers.providers.InfuraProvider('rinkeby', InfuraID);    
+    var provider = new ethers.providers.InfuraProvider(network, InfuraID);    
     const contract = new Contract(contract_addr, contract_abi, provider);
     setContract(contract);
 
@@ -133,6 +133,7 @@ function Home() {
     callPromise.then(function(result:any) {
         const decodedJson = Buffer.from(result.substring(29), "base64");        
         const json = JSON.parse(decodedJson.toString('ascii'));
+//        console.log(json.attributes);
 //        console.log(json.image);
         setMintedTokenID(tokenID); 
         setMintedTokenImage(json.image);    
@@ -228,7 +229,7 @@ function Home() {
 
   function getTokenImageFromHash(hash:string)
   {
-    var provider = new ethers.providers.InfuraProvider('rinkeby', InfuraID);    
+    var provider = new ethers.providers.InfuraProvider(network, InfuraID);    
     provider.getTransactionReceipt(hash).then(function(transactionReceipt) {
 
       if(!transactionReceipt)
@@ -327,11 +328,9 @@ function Home() {
           The transaction finished with the hash <code className={ success && !error ? styles.success : styles.error }>{ transactionHash }</code>.<br />          
           You can look up the transaction on EtherScan by using <a className={styles.link} href=  { 'https://etherscan.io/tx/' + transactionHash } target='_blank' >this link</a><br />    
           <br />
-          If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="opensea.io" target="_blank">OpenSea</a> to view the puzzle.
+          If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="https://opensea.io" target="_blank">OpenSea</a> to view the puzzle.
           Once the transaction is fully processed you may also view the puzzle here: <a className={styles.link} onClick={() => getTokenImageFromHash(transactionHash)}>view token</a>
-          <br />
-          <br />
-          If you want to mint another NFT, you will have to <a onClick={refresh}>reload</a> the page (sorry).
+          <br />          
         </div>
       )
       }
