@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import styles from '../styles/Main.module.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
+
 import  Modal from '../components/modal';
 import Loader from "react-loader-spinner";
 import  Puzzle  from '../components/puzzle';
@@ -328,7 +329,7 @@ function Home() {
           The transaction finished with the hash <code className={ success && !error ? styles.success : styles.error }>{ transactionHash }</code>.<br />          
           You can look up the transaction on EtherScan by using <a className={styles.link} href=  { 'https://etherscan.io/tx/' + transactionHash } target='_blank' >this link</a><br />    
           <br />
-          If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="https://opensea.io" target="_blank">OpenSea</a> to view the puzzle.
+          If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="https://opensea.io/collection/mondrian-puzzles" target="_blank">OpenSea</a> to view the puzzle.
           Once the transaction is fully processed you may also view the puzzle here: <a className={styles.link} onClick={() => getTokenImageFromHash(transactionHash)}>view token</a>
           <br />          
         </div>
@@ -375,12 +376,9 @@ function Home() {
       Well, the Mondrian Puzzle is a puzzle that requires rectangles tiling a integer-sided square. All rectangles within the square must be integer sided and pairwise non-congruential. The aim is to fill the square with such rectangles in a way so that the difference between the area of the largest and the area of the smalles rectangles are kept at a minimum. The ultimate challenge consists in finding a tiling that has the lowest score possible. 
     </p>
     { (
-    <div className={styles.puzzles}>    
-    
+    <div className={styles.puzzles}>          
       <Puzzle width={300} height={300} noOfRectangles={12}  />
-      <Puzzle width={300} height={300} noOfRectangles={8}  />
-      
-    
+      <Puzzle width={300} height={300} noOfRectangles={8}  />    
     </div>
     )}
     <h2 className={styles.headline}>Why?</h2>
@@ -412,7 +410,7 @@ function Home() {
     <h3>How many are there?</h3>
     <p>
       Each year a total of 1024 puzzles can be minted (created). When the grand total reaches 5120 puzzles the supply ends and it will no longer be able to mint new puzzles - not even by me. 
-      You might find some on Opensea.io though.
+      You might find some on <a href="https://opensea.io/collection/mondrian-puzzles" target="_blank">Opensea.io</a> though.
     </p>
     <h3>How much is it?</h3>
     <p>
@@ -429,7 +427,7 @@ function Home() {
     <p>
       There are several ways to retrieve the puzzle once the transaction is fully processed. If you are familiar with EtherScan you can alway use that to interact with the contracts <code>tokenURI()</code> method. If you are using Rainbow wallet, the puzzle is displayed directly in the app and you can also find it on OpenSea.io. 
     </p>
-      { false && (
+      { true && (
           <div>If you extract the <code>transaction hash</code> or the <code>tokenID</code> from your wallet you can also look it up using the feature below (please connect first).
           <form>
           <input type="text" 
