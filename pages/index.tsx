@@ -48,12 +48,28 @@ function Home() {
   const [toAddress, setToAddress] = useState<string | null>(null);
   const [mintedTokenImage, setMintedTokenImage] = useState<string | undefined>(undefined);
   const [mintedTokenID, setMintedTokenID] = useState<number>(0);
+  const [mintedTokenScore, setMintedTokenScore] = useState<number>(0);
+  const [mintedTokenRect, setMintedTokenRects] = useState<number>(0);
   const [requestedToken, setRequestedToken] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
 
 
   const { activate, active, library, connector, account, deactivate } = useWeb3React(); 
   
+
+  useEffect(() => {
+    var provider = new ethers.providers.InfuraProvider(network, InfuraID);    
+    const contract = new Contract(contract_addr, contract_abi, provider);
+
+    const callPromise = contract.callStatic.tokenURI(0);
+    callPromise.then(function(result:any) {
+        const decodedJson = Buffer.from(result.substring(29), "base64");        
+        const json = JSON.parse(decodedJson.toString('ascii'));
+//        console.log(json.attributes);
+//        console.log(json.image);
+      }, handleError);
+    
+  });
 
   useEffect(() => {
   
@@ -137,6 +153,8 @@ function Home() {
 //        console.log(json.attributes);
 //        console.log(json.image);
         setMintedTokenID(tokenID); 
+        setMintedTokenScore(json.attributes.score);
+        setMintedTokenRects(json.attributes.noOfRectangles);
         setMintedTokenImage(json.image);    
         setShowModal(true);        
         setIsBusy(false); 
@@ -292,7 +310,7 @@ function Home() {
     </div>
     <h1 className={styles.mainHeadline}>Mondrian Puzzles_</h1>
     <p>
-      Mondrian Puzzles are heuristically solutions to the Mondrian Puzzles. They are fully generated and stored tokens on the chain and each represent a randomly generated solution.
+      Mondrian Puzzles are dynamic heuristically solutions to the Mondrian Puzzles. They are fully generated and stored tokens on the chain and each represent a randomly generated solution that evolves with the Ethereum chain.
       <br />
       <br />
       Connect your wallet to start minting.
@@ -329,8 +347,8 @@ function Home() {
           The transaction finished with the hash <code className={ success && !error ? styles.success : styles.error }>{ transactionHash }</code>.<br />          
           You can look up the transaction on EtherScan by using <a className={styles.link} href=  { 'https://etherscan.io/tx/' + transactionHash } target='_blank' >this link</a><br />    
           <br />
-          If you are using Rainbow wallet the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="https://opensea.io/collection/mondrian-puzzles" target="_blank">OpenSea</a> to view the puzzle.
-          Once the transaction is fully processed you may also view the puzzle here: <a className={styles.link} onClick={() => getTokenImageFromHash(transactionHash)}>view token</a>
+          If you are using Rainbow wallet a snapshot of the puzzle should show up in your app in a short while. If using other wallets you will have to rely on other services such as <a href="https://opensea.io/collection/mondrian-puzzles" target="_blank">OpenSea</a> to view the puzzle. Please keep in mind that OpenSea, Rainbow Wallet and other services only shows a snapshot. The entire puzzle solution is constantly evolving.
+          Once the transaction is fully processed you may also view a snapshot of the puzzle here: <a className={styles.link} onClick={() => getTokenImageFromHash(transactionHash)}>view token</a>
           <br />          
         </div>
       )
@@ -373,7 +391,7 @@ function Home() {
     
     <h2 className={styles.headline}>What are Mondrian Puzzles?</h2>
     <p>
-      Well, the Mondrian Puzzle is a puzzle that requires rectangles tiling a integer-sided square. All rectangles within the square must be integer sided and pairwise non-congruential. The aim is to fill the square with such rectangles in a way so that the difference between the area of the largest and the area of the smalles rectangles are kept at a minimum. The ultimate challenge consists in finding a tiling that has the lowest score possible. 
+      Well, the Mondrian Puzzle is a puzzle that requires rectangles tiling a integer-sided square. All rectangles within the square must be integer sided and pairwise non-congruential. The aim is to fill the square with such rectangles in a way so that the difference between the area of the largest and the area of the smalles rectangles are kept at a minimum. The ultimate challenge consists in finding a tiling that has the lowest score possible.  Each puzzle is unique and by using the natuaral evolution of the block chain it will use a heuristic approach to lower the score.
     </p>
     { (
     <div className={styles.puzzles}>          
@@ -397,7 +415,7 @@ function Home() {
     <h2 className={styles.headline}>Any questions?</h2>
     <h3>What does "on chain" means?</h3>
     <p>
-      It means that all calculations and the token it self - including the metadata and actual artwork - is stored on the Ethereum Blockchain. Therefore it is immutable and can never be changed or removed unless the entire blockchain shuts down. 
+      It means that all calculations and the token it self - including the metadata and actual artwork - is stored on the Ethereum Blockchain. Therefore it's codebase is immutable and can never be changed or removed unless the entire blockchain shuts down. 
       Many NFTs only stores a seed or the metadata on the chain while generating and storing the art work on either centralized servers or perhaps decentralized. While theres nothing wrong in that, there is a chance that the connection between the token and the artwork is broken if the centralized server is down or removed.
     </p>
 
@@ -425,7 +443,7 @@ function Home() {
 
     <h3>Now I bought one, how can I revisit it?</h3>
     <p>
-      There are several ways to retrieve the puzzle once the transaction is fully processed. If you are familiar with EtherScan you can alway use that to interact with the contracts <code>tokenURI()</code> method. If you are using Rainbow wallet, the puzzle is displayed directly in the app and you can also find it on OpenSea.io. 
+      There are several ways to retrieve a snapshot of the puzzle once the transaction is fully processed. If you are familiar with EtherScan you can alway use that to interact with the contracts <code>tokenURI()</code> method which will give you the current state of the puzzle. If you are using Rainbow wallet, a snapshot of the puzzle is displayed directly in the wallet and you can also find it on OpenSea.io. 
     </p>
       { true && (
           <div>If you extract the <code>transaction hash</code> or the <code>tokenID</code> from your wallet you can also look it up using the feature below (please connect first).
@@ -456,7 +474,8 @@ function Home() {
         >
           <img src={mintedTokenImage} />
           <code>Token ID: {mintedTokenID}</code><br />
-          <span className={styles.tokenInfo}>You can right-click and save the image but please note that it's only a copy. However it makes it easier to display it elsewhere</span>
+          <code>Current mondrian score: {mintedTokenScore} using {mintedTokenRects} rectangles</code><br />
+          <span className={styles.tokenInfo}>You can right-click and save the image but please note that it's only a snapshot of the current state. However it makes it easier to display it elsewhere</span>
     </Modal>
 
 
