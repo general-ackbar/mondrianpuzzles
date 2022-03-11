@@ -58,10 +58,12 @@ const Modal = ({ show, onClose, children, title }: {show:Boolean, title:string, 
   const StyledModal = styled.div`
     background: white;
     color: black;
-    width: 550px;
-    height: 650px;
+    width: 430px;
+    height: 575px;
     border-radius: 15px;
     padding: 15px;
+    align-content: center;    
+    align-items: center;
     text-align: center;
   `;
   const StyledModalOverlay = styled.div`

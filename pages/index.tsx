@@ -49,7 +49,7 @@ function Home() {
   const [mintedTokenImage, setMintedTokenImage] = useState<string | undefined>(undefined);
   const [mintedTokenID, setMintedTokenID] = useState<number>(0);
   const [mintedTokenScore, setMintedTokenScore] = useState<number>(0);
-  const [mintedTokenRect, setMintedTokenRects] = useState<number>(0);
+  const [mintedTokenRects, setMintedTokenRects] = useState<number>(0);
   const [requestedToken, setRequestedToken] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -57,6 +57,7 @@ function Home() {
   const { activate, active, library, connector, account, deactivate } = useWeb3React(); 
   
 
+  /*
   useEffect(() => {
     var provider = new ethers.providers.InfuraProvider(network, InfuraID);    
     const contract = new Contract(contract_addr, contract_abi, provider);
@@ -66,10 +67,12 @@ function Home() {
         const decodedJson = Buffer.from(result.substring(29), "base64");        
         const json = JSON.parse(decodedJson.toString('ascii'));
 //        console.log(json.attributes);
-//        console.log(json.image);
+
+        console.log(json.image);
       }, handleError);
     
-  });
+  }, []);
+*/
 
   useEffect(() => {
   
@@ -150,11 +153,10 @@ function Home() {
     callPromise.then(function(result:any) {
         const decodedJson = Buffer.from(result.substring(29), "base64");        
         const json = JSON.parse(decodedJson.toString('ascii'));
-//        console.log(json.attributes);
-//        console.log(json.image);
+        console.log(json.attributes);
         setMintedTokenID(tokenID); 
-        setMintedTokenScore(json.attributes.score);
-        setMintedTokenRects(json.attributes.noOfRectangles);
+        setMintedTokenScore(json.attributes[0].value);
+        setMintedTokenRects(json.attributes[2].value);
         setMintedTokenImage(json.image);    
         setShowModal(true);        
         setIsBusy(false); 
@@ -472,9 +474,9 @@ function Home() {
           onClose={() => setShowModal(false)}          
           show={showModal}
         >
-          <img src={mintedTokenImage} />
+          <img className={styles.tokenSnap} src={mintedTokenImage} />
           <code>Token ID: {mintedTokenID}</code><br />
-          <code>Current mondrian score: {mintedTokenScore} using {mintedTokenRects} rectangles</code><br />
+          <code>Current mondrian score <em>{mintedTokenScore}</em> using <em>{mintedTokenRects}</em> rectangles</code><br />
           <span className={styles.tokenInfo}>You can right-click and save the image but please note that it's only a snapshot of the current state. However it makes it easier to display it elsewhere</span>
     </Modal>
 

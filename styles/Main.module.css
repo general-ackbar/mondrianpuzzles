@@ -22,3 +22,4 @@
 .unavailable { padding-right: 10px; color: red;}
 .info { padding-right: 10px; }
 .owner { padding: 10px; border: black solid 1px; margin-top: 5px; }
+.tokenSnap {max-width: 400px; display: block; float: none;}
