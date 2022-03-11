@@ -423,7 +423,7 @@ function Home() {
 
     <h3>How are the puzzles generated?</h3>
     <p>
-      The puzzles are generated from a rather simple algorithm that fills a predefined integersided-square with rectangles according to the "rules" of the Mondrian Puzzle. The size, place and colors of the puzzles are generated randomly based on a seed.
+      The puzzles are generated from a rather simple algorithm that fills a predefined integersided-square with rectangles according to the "rules" of the Mondrian Puzzle. The size, place and colors of the puzzles are generated randomly based on an unique seed and the current state of the block chain.
       You can look up the code on Etherscan.
     </p>
 
