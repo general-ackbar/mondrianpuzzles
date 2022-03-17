@@ -5,7 +5,7 @@
         margin: 10px; 
 }
 
-
+.footer { text-align: center; padding: 5px; margin-bottom: 10px; }
 .mainHeadline { font-size: 4rem ; }
 .spinner {width: 100px; height: 80px; position: absolute; right: 50%; top: 50%; text-align: center; background-color: white; border: solid black 1px;} 
 .link { cursor: pointer; }

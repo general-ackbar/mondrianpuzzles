@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 
+import { SocialIcon } from 'react-social-icons';
 import { useState, useEffect } from "react";
 import styles from '../styles/Main.module.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -482,7 +483,12 @@ function Home() {
 
 
       </main>
-      <footer className={styles.footer}>      
+      <footer className={styles.footer}>  
+        <SocialIcon fgColor="white" url="https://twitter.com/aladinsane_dk" />
+        <SocialIcon fgColor="white" url="https://www.reddit.com/user/aladinsane8" />
+        <SocialIcon fgColor="white" url="https://aladinsanesworld.tumblr.com/" />
+        <SocialIcon fgColor="white" url="mailto:jonatan@codeninja.dk" />
+        <SocialIcon fgColor="white" url="http://codeninja.dk" />
       </footer>
     </div>
 
