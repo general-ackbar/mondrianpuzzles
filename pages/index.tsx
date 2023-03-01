@@ -611,8 +611,8 @@ function TokenStats({mintedTokensTotal, totalTokens, mintedTokensYear, tokensPer
   
   return (
     <div className={styles.stats}>          
-      <span className={styles.info}>Tokens: { mintedTokensTotal } / { totalTokens }</span>
-      <span className={ (mintedTokensYear < tokensPerYear ? styles.info : styles.unavailable )}>Minted this year: { mintedTokensYear } / { tokensPerYear } </span>
+      <span className={styles.info}>Tokens in total: { mintedTokensTotal } </span>
+      <span className={ (mintedTokensYear < tokensPerYear ? styles.info : styles.unavailable )}>Minted this year: { mintedTokensYear }  </span>
       <span className={ (availableFreebies > 0 ? styles.info : styles.unavailable )}>Available freebies this year: { availableFreebies } </span>
     </div>
   );
