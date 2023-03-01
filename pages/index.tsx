@@ -440,7 +440,7 @@ function Home() {
     </p>
     { (
     <div className={styles.puzzles}>          
-     <Puzzle rects={rects} />
+     <MP rects={rects} />
      
     </div>
     )}
@@ -619,7 +619,7 @@ function TokenStats({mintedTokensTotal, totalTokens, mintedTokensYear, tokensPer
   );
 }
 
-function Puzzle(rects:{rects:Rectangle[]})
+function MP(rects:{rects:Rectangle[]})
 {
   let rect1 = new Rectangle( {x:0, y:0, width: 400, height:400, fill: "white" } );
   let rect2 = new Rectangle( {x:0, y:0, width: 400, height:100, fill: "red" } );
