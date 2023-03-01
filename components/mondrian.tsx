@@ -1,5 +1,5 @@
 import React from "react";
-import {memo} from "react";
+import {memo, useState, useEffect} from "react";
 
 interface iProp {}
 interface iRect
@@ -53,7 +53,6 @@ class Mondrian extends React.Component<MondrianProps>  {
     }
 
     render() {
-        
         return this.generateSVG();
     }
 
@@ -146,28 +145,10 @@ class Mondrian extends React.Component<MondrianProps>  {
             
         }     
         
-        return(
-            <svg>
-            {
-            rectangles.map( (rectangle, index) => {
-                return (<rect 
-                    key={index} 
-                    x={rectangle.x}
-                    y={rectangle.y}
-                    width={rectangle.width}
-                    height={rectangle.height}
-                    fill={rectangle.fill}
-                    strokeWidth={6}
-                    stroke="black"
-                    />);
-                }
-            )
-            }
-            </svg>
-        );
+        return rectangles;
     }
 }
 
 
 
-export { Mondrian };
+export { Mondrian, Rectangle };

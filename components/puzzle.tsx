@@ -31,7 +31,6 @@ class Rectangle
         return Math.floor(Math.random() * max);
     }
 
-
     const Puzzle = ({width, height, noOfRectangles}: {width:number, height:number, noOfRectangles:number }) => {    
         
         
@@ -113,6 +112,8 @@ class Rectangle
             }
             
         }     
+
+
         
         return(            
             <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" >

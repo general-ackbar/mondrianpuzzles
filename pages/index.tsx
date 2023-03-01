@@ -10,6 +10,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import  Modal from '../components/modal';
 import Loader from "react-loader-spinner";
 import  Puzzle  from '../components/puzzle';
+import { Mondrian,  Rectangle } from '../components/mondrian';
 
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -53,11 +54,18 @@ function Home() {
   const [mintedTokenRects, setMintedTokenRects] = useState<number>(0);
   const [requestedToken, setRequestedToken] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const [rects, setRects] = useState<Rectangle[]>([]);
 
   const { activate, active, library, connector, account, deactivate } = useWeb3React(); 
   
 
+  useEffect(() => {
+    const M = new Mondrian({width: 400, height: 300, cycles: 12});
+    
+    setRects(M.generateSVG());
+    
+  }, []);
+  
   /*
   useEffect(() => {
     var provider = new ethers.providers.InfuraProvider(network, InfuraID);    
@@ -207,6 +215,25 @@ function Home() {
       }, handleError);
   } 
 
+  function mintForOther() {
+    if(!contract) return;    
+    setIsBusy(true);
+    setError(null);
+    
+
+    contract.mintFor(toAddress,
+      { 
+        from: account,         
+        value: ethers.utils.parseEther("0.01") 
+      })
+      .then(function(transaction:any) {
+        if(transaction.hash != "") {
+          setTransactionHash(transaction.hash);
+          setSuccess(true);  
+        }
+        setIsBusy(false);            
+      }, handleError);
+  } 
   function ownerMint() {
     if(!contract) return;    
     setIsBusy(true);
@@ -333,10 +360,25 @@ function Home() {
           onClick={mint}
           >Mint puzzle (0.01 E)
         </TransactionButton>
+        <br />
+        <form>
+          <input type="text" 
+            className={styles.transactionElement} 
+            placeholder='Address of receiver' 
+            onChange={event => setToAddress(event.target.value)} 
+          />          
+        </form>
+        <TransactionButton 
+          disabled={mintedTokensYear == tokensPerYear}
+          onClick={mintForOther}
+          >Mint puzzle for other (0.01 E)
+        </TransactionButton>
         </div>
       )}
-      { active && availableFreebies > 0 && (
+
+      { active && availableFreebies > 0 && (      
         <div className={styles.mint}>
+          <br />
         <TransactionButton 
           disabled={availableFreebies == 0}
           onClick={mintForFree}
@@ -398,8 +440,7 @@ function Home() {
     </p>
     { (
     <div className={styles.puzzles}>          
-      <Puzzle width={300} height={300} noOfRectangles={12}  />
-      <Puzzle width={300} height={300} noOfRectangles={8}  />    
+     <Mon rects={rects} />
     </div>
     )}
     <h2 className={styles.headline}>Why?</h2>
@@ -575,6 +616,34 @@ function TokenStats({mintedTokensTotal, totalTokens, mintedTokensYear, tokensPer
       <span className={ (availableFreebies > 0 ? styles.info : styles.unavailable )}>Available freebies this year: { availableFreebies } </span>
     </div>
   );
+}
+
+function Mon(rects:{rects:Rectangle[]})
+{
+  let rect = new Rectangle( {x:0, y:0, width: 400, height:400, fill: "green" } );
+  let rect2 = new Rectangle( {x:0, y:0, width: 300, height:300, fill: "red" } );
+  let rectangles:Rectangle[] = [rect, rect2];
+  //rectangles = rects;
+  return(
+    <svg>
+    {
+
+    rectangles.map( (rectangle, index) => {
+        return (<rect 
+            key={index} 
+            x={rectangle.x}
+            y={rectangle.y}
+            width={rectangle.width}
+            height={rectangle.height}
+            fill={rectangle.fill}
+            strokeWidth={6}
+            stroke="black"
+            />);
+        }
+    )
+    }
+    </svg>
+);
 }
 
 function Spinner()

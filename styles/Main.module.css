@@ -13,7 +13,7 @@
 .error { color: red;}
 .tokenInfo { font-size: small; font-style: italic; }
 .chainSection {text-align: center; }
-.transactionElement { border-radius: 15px; margin: 5px 5px 5px 0; }
+.transactionElement { border-radius: 15px; margin: 5px 5px 5px 0; display: inline; }
 .connect { margin: 2px; }
 .disconnect { width: 200px; height: 40px; margin: 2px; font-size: 1.2em;}
 .container { padding: 0 2rem;  }
