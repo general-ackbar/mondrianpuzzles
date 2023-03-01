@@ -440,7 +440,8 @@ function Home() {
     </p>
     { (
     <div className={styles.puzzles}>          
-     <Mon rects={rects} />
+     <Puzzle rects={rects} />
+     
     </div>
     )}
     <h2 className={styles.headline}>Why?</h2>
@@ -618,11 +619,16 @@ function TokenStats({mintedTokensTotal, totalTokens, mintedTokensYear, tokensPer
   );
 }
 
-function Mon(rects:{rects:Rectangle[]})
+function Puzzle(rects:{rects:Rectangle[]})
 {
-  let rect = new Rectangle( {x:0, y:0, width: 400, height:400, fill: "green" } );
-  let rect2 = new Rectangle( {x:0, y:0, width: 300, height:300, fill: "red" } );
-  let rectangles:Rectangle[] = [rect, rect2];
+  let rect1 = new Rectangle( {x:0, y:0, width: 400, height:400, fill: "white" } );
+  let rect2 = new Rectangle( {x:0, y:0, width: 400, height:100, fill: "red" } );
+  let rect3 = new Rectangle( {x:0, y:100, width: 75, height:300, fill: "blue" } );
+  let rect4 = new Rectangle( {x:75, y:100, width: 325, height:50, fill: "yellow" } );
+  let rect5 = new Rectangle( {x:300, y:150, width: 100, height:250, fill: "blue" } );
+  let rect6 = new Rectangle( {x:75, y:350, width: 225, height:50, fill: "red" } );
+
+  let rectangles:Rectangle[] = [rect1, rect2, rect3, rect4, rect5, rect6];
   //rectangles = rects;
   return(
     <svg>
